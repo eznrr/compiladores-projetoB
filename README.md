@@ -446,19 +446,3 @@ Erro na linha 3, coluna 5: valor esperado perto de '}'
 ```
 
 Isso ajuda a localizar exatamente onde o codigo LPS1 esta incorreto.
-
-## Observacao sobre os arquivos `.class`
-
-Ao compilar com `javac`, o Java gera varios arquivos `.class`.
-
-Isso e normal, porque os programas possuem classes internas. Por isso podem aparecer arquivos como:
-
-```text
-ProjetoA.class
-ProjetoA$Lexer.class
-ProjetoA$Parser.class
-ProjetoA$TokenType.class
-ProjetoB$ProgramNode.class
-```
-
-Esses arquivos sao apenas o resultado da compilacao. Para a entrega impressa, normalmente devem ser entregues os arquivos `.java`, os exemplos `.lps1` e as saidas `.c`, nao os arquivos `.class`.
