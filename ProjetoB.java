@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,24 @@ public class ProjetoB {
             return;
         }
 
-        String fonte = new String(Files.readAllBytes(Paths.get(args[0])), StandardCharsets.UTF_8);
+        Path inputPath = Paths.get(args[0]);
+        String fonte = new String(Files.readAllBytes(inputPath), StandardCharsets.UTF_8);
         Parser parser = new Parser(new Lexer(fonte));
         ProgramNode program = parser.parseProgram();
-        System.out.print(program.toC());
+        String codigoC = program.toC();
+        Path outputPath = outputPath(inputPath, "b");
+        Files.write(outputPath, codigoC.getBytes(StandardCharsets.UTF_8));
+        System.out.print(codigoC);
+        System.err.println("Codigo C gerado em: " + outputPath);
+    }
+
+    private static Path outputPath(Path inputPath, String suffix) {
+        String fileName = inputPath.getFileName().toString();
+        int dot = fileName.lastIndexOf('.');
+        String baseName = dot >= 0 ? fileName.substring(0, dot) : fileName;
+        Path parent = inputPath.getParent();
+        String outputName = "saida-" + baseName + "-" + suffix + ".c";
+        return parent == null ? Paths.get(outputName) : parent.resolve(outputName);
     }
 
     enum TokenType {
